@@ -37,7 +37,7 @@ io.sockets.on('connection', function (socket) {
 
     function closePins() {
         gpio.destroy(function() {
-            console.log("All pins unexported');
+            console.log('All pins unexported');
         });
   });
 });
