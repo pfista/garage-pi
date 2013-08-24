@@ -7,38 +7,42 @@ var gpio = require('rpi-gpio');
 app.listen(9887);
 
 function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
-      function (err, data) {
-        if (err) {
-          res.writeHead(500);
-          return res.end('Error loading index.html');
-        }
-        res.writeHead(200);
-        res.end(data);
-  });
+    fs.readFile(__dirname + '/index.html',
+        function (err, data) {
+            if (err) {
+              res.writeHead(500);
+              return res.end('Error loading index.html');
+            }
+            res.writeHead(200);
+            res.end(data);
+    });
 }
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('status', 'connected');
+    socket.emit('status', 'connected');
 
-  socket.on('toggle-garage', function (data) {
-    console.log(data);
-    socket.emit('toggle-garage', "toggling the garage"); 
+    socket.on('toggle-garage', function (data) {
+        console.log(data);
+        socket.emit('toggle-garage', "toggling the garage"); 
+        gpio.setup(11, gpio.DIR_OUT, toggle);
 
-    gpio.setup(11, gpio.DIR_OUT, toggle);
+        function toggle() {
+            gpio.write(11, true, function(err) {
+                if (err) throw err;
+                console.log("Written to pin");
+            });
 
-    function toggle() {
-        gpio.write(11, true, function(err) {
-            if (err) throw err;
-            console.log("Written to pin");
-        });
+            setTimeout(closePins, 500);
+        }
 
-        setTimeout(closePins, 500);
+        function closePins() {
+            gpio.destroy(function() {
+                console.log('All pins unexported');
+            });
+        }
+    });
 
-    function closePins() {
-        gpio.destroy(function() {
-            console.log('All pins unexported');
-        });
-    }
 });
+
+
 
