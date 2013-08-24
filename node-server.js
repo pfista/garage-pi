@@ -28,7 +28,9 @@ io.sockets.on('connection', function (socket) {
 
         function toggle() {
             gpio.write(11, true, function(err) {
-                if (err) throw err;
+                if (err) {
+                    console.log('## Error' + err );
+                }
                 console.log("Written to pin");
             });
 
