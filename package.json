@@ -1,0 +1,15 @@
+{
+  "name": "garage-pi",
+  "version": "0.0.1",
+  "description": "Close a garage door.",
+  "main": "node-server.js",
+  "dependencies": {
+    "socket.io": "~0.9.16"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Pfister",
+  "license": "BSD"
+}
