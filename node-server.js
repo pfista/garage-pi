@@ -1,6 +1,8 @@
 var app = require('http').createServer(handler)
   , io = require('socket.io').listen(app)
-  , fs = require('fs')
+  , fs = require('fs');
+
+var gpio = require('rpi-gpio');
 
 app.listen(9887);
 
@@ -11,15 +13,32 @@ function handler (req, res) {
       res.writeHead(500);
       return res.end('Error loading index.html');
     }
-
     res.writeHead(200);
     res.end(data);
   });
 }
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
+  socket.emit('status', 'connected');
+
+  socket.on('toggle-garage', function (data) {
     console.log(data);
+    socket.emit('toggle-garage', "toggling the garage"); 
+
+    gpio.setup(11, gpio.DIR_OUT, toggle);
+
+    function toggle() {
+        gpio.write(11, true, function(err) {
+            if (err) throw err;
+            console.log("Written to pin");
+        });
+
+        setTimeout(closePins, 500);
+
+    function closePins() {
+        gpio.destroy(function() {
+            console.log("All pins unexported');
+        });
   });
 });
+

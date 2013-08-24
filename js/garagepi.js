@@ -1,14 +1,19 @@
 NProgress.start();
+var socket = io.connect('http://10.0.1.85:9887');
 
 $(function() {
     NProgress.done();
 
+    socket.on('status', function (data) {
+        console.log(data);
+    });
+
+    socket.on('toggle-garage', function(data) {
+        console.log("client: server got garage toggle");
+
+    });
 });
 
-function connect() {
-    var socket = io.connect('http://localhost:9887');
-    socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-    });
+function toggle() {
+    socket.emit('toggle-garage', "toggle from client");
 }
