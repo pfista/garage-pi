@@ -22,7 +22,6 @@ io.sockets.on('connection', function (socket) {
     socket.emit('status', 'connected');
 
     socket.on('toggle-garage', function (data) {
-        console.log(data);
         socket.emit('toggle-garage', "toggling the garage"); 
 
         gpio.setup(11, gpio.DIR_OUT, function() {
@@ -30,18 +29,27 @@ io.sockets.on('connection', function (socket) {
                 if (err) {
                     console.log('## Error' + err );
                 }
-                console.log("Written to pin");
+                console.log("Sending voltage to pin");
             });
         });
 
-        setTimeout(closePins, 500);
+        setTimeout(closePins, 700);
 
         function closePins() {
-            gpio.destroy(function() {
-                console.log('All pins unexported');
+            gpio.write(11, false, function(err) {
+                if (err) {
+                    console.log('## Error' + err );
+                }
+                console.log("Cutting voltage");
             });
+            /*
+            gpio.destroy(function() {
+                console.log('Cleaned up GPIO');
+            });
+            */
         }
     });
+
 });
 
 
