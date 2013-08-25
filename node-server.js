@@ -25,18 +25,16 @@ io.sockets.on('connection', function (socket) {
         console.log(data);
         socket.emit('toggle-garage', "toggling the garage"); 
 
-        function toggle() {
-            gpio.setup(11, gpio.DIR_OUT, function() {
-                gpio.write(11, true, function(err) {
-                    if (err) {
-                        console.log('## Error' + err );
-                    }
-                    console.log("Written to pin");
-                });
+        gpio.setup(11, gpio.DIR_OUT, function() {
+            gpio.write(11, true, function(err) {
+                if (err) {
+                    console.log('## Error' + err );
+                }
+                console.log("Written to pin");
             });
+        });
 
-            setTimeout(closePins, 500);
-        }
+        setTimeout(closePins, 500);
 
         function closePins() {
             gpio.destroy(function() {
