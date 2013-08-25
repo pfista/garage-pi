@@ -1,8 +1,7 @@
 var app = require('http').createServer(handler)
   , io = require('socket.io').listen(app)
-  , fs = require('fs');
-
-var gpio = require('rpi-gpio');
+  , fs = require('fs')
+  , gpio = require('rpi-gpio');
 
 app.listen(9887);
 
@@ -42,14 +41,8 @@ io.sockets.on('connection', function (socket) {
                 }
                 console.log("Cutting voltage");
             });
-            /*
-            gpio.destroy(function() {
-                console.log('Cleaned up GPIO');
-            });
-            */
         }
     });
-
 });
 
 
