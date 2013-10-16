@@ -6,5 +6,8 @@ garage door opener.
 GaragePi provides a web interface to toggle a gpio pin to send voltage to a
 garage door opener, effectively simulating a button press.
 
+![in action](http://i.imgur.com/CMJ5Tsz.gif)
+
 ![alt text](http://i.imgur.com/wLKHaBp.jpg "The setup")
+
 
